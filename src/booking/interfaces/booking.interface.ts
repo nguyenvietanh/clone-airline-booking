@@ -1,13 +1,17 @@
-import { Document } from 'mongoose';
+import { Schema,Document } from 'mongoose';
 
 export interface Booking extends Document {
-	id: ID!,
-	status: BookingStatus!,
-	outboundFlight: Flight!,
-	paymentToken: string!,
+	status: BookingStatus,
+	outboundFlight: { type: Schema.Types.ObjectId, ref: 'Flight' },
+	paymentToken: string,
 	checkedIn: boolean,
 	customer: string,
 	createdAt: string,
 	bookingReference: string,
-	updatedAt: AWSDateTime!,
+	updatedAt: Date,
+}
+enum BookingStatus {
+	UNCONFIRMED,
+	CONFIRMED,
+	CANCELLED,
 }
