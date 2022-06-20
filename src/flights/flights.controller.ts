@@ -1,10 +1,10 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { FlightService } from './flight.service';
+import { FlightsService } from './flights.service';
 
-@Controller('flight')
-export class FlightController {
-  constructor(private readonly flightService: FlightService) {}
-  @Post()
+@Controller('flights')
+export class FlightsController {
+  constructor(private readonly flightService: FlightsService) {}
+  @Post('/create')
   async createFlight(
     @Body('departureDate') departureDate: string,
     @Body('departureAirportCode') departureAirportCode: string,

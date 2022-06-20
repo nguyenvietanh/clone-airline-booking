@@ -1,11 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import { Flight } from './flight.model';
 
 @Injectable()
-export class FlightService {
+export class FlightsService {
   constructor(
     @InjectModel('Flight') private readonly flightModel: Model<Flight>,
   ) {}
@@ -27,7 +27,7 @@ export class FlightService {
     seatAllocation: number,
     seatCapacity: number,
   ) {
-    const newProduct = new this.flightModel({
+    const newFight = new this.flightModel({
       departureDate: departureDate,
       departureAirportCode: departureAirportCode,
       departureAirportName: departureAirportName,
@@ -44,8 +44,8 @@ export class FlightService {
       seatAllocation: seatAllocation,
       seatCapacity: seatCapacity,
     });
-    const result = await newProduct.save();
+    const result = await newFight.save();
     console.log(result);
-    return result.id as string;
+    return result;
   }
 }
