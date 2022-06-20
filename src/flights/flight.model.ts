@@ -15,7 +15,6 @@ export interface Flight extends mongoose.Document {
   ticketPrice: number;
   ticketCurrency: string;
   flightNumber: number;
-  seatAllocation: number;
   seatCapacity: number;
 }
 export const FlightSchema = new mongoose.Schema({
@@ -32,6 +31,5 @@ export const FlightSchema = new mongoose.Schema({
   ticketPrice: { type: Number },
   ticketCurrency: { type: String, required: true },
   flightNumber: { type: Number },
-  seatAllocation: { type: Number },
   seatCapacity: { type: Number },
 });
