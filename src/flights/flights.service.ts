@@ -56,6 +56,19 @@ export class FlightsService {
     const flight = await this.findFlight(flightId);
     return { flight };
   }
+
+  async getFlightBySchedule(
+    departureAirportCode: string,
+    arrivalAirportCode: string,
+    departureDate: string,
+  ) {
+    const flight = await this.searchFlight(
+      departureAirportCode,
+      arrivalAirportCode,
+      departureDate,
+    );
+    return { flight };
+  }
   //update a flight
   async updateFlight(
     flightId: string,
@@ -125,6 +138,10 @@ export class FlightsService {
     }
     updateFlight.save();
   }
+  //delete a flight
+  async deleteFlight(productId: string) {
+    await this.flightModel.deleteOne({ _id: productId }).exec();
+  }
   //function find flight in database
   private async findFlight(id: string): Promise<Flight> {
     let flight;
@@ -134,6 +151,46 @@ export class FlightsService {
       throw new NotFoundException('Not found flight');
     }
     if (!flight) {
+      throw new NotFoundException('Not found flight');
+    }
+    return flight;
+  }
+
+  private async searchFlight(
+    departureAirportCode: string,
+    arrivalAirportCode: string,
+    departureDate: string,
+  ): Promise<Flight> {
+    let flight;
+    try {
+      flight = await this.flightModel
+        .find({
+          departureAirportCode: departureAirportCode,
+          arrivalAirportCode: arrivalAirportCode,
+          departureDate: departureDate,
+        })
+        .exec();
+      // if (departureAirportCode) {
+      //   flight = await this.flightModel
+      //     .find({ departureAirportCode: departureAirportCode })
+      //     .exec();
+      // }
+      // if (arrivalAirportCode) {
+      //   flight = await this.flightModel
+      //     .find({ arrivalAirportCode: arrivalAirportCode })
+      //     .exec();
+      // }
+      // if (departureDate) {
+      //   flight = await this.flightModel
+      //     .find({ departureDate: departureDate })
+      //     .exec();
+      // }
+    } catch (err) {
+      throw new NotFoundException('Not found flight');
+    }
+    console.log(typeof flight);
+    console.log(flight.length);
+    if (!flight || flight.length === 0) {
       throw new NotFoundException('Not found flight');
     }
     return flight;

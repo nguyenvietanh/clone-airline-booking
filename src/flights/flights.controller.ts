@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Get, Param, Put } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Param,
+  Put,
+  Delete,
+} from '@nestjs/common';
 import { FlightsService } from './flights.service';
 
 @Controller('flights')
@@ -50,6 +58,22 @@ export class FlightsController {
     return this.flightsService.getSingleFlight(flightId);
   }
 
+  @Post('/search')
+  getFlightBySchedule(
+    @Body('departureAirportCode') departureAirportCode: string,
+    @Body('arrivalAirportCode') arrivalAirportCode: string,
+    @Body('departureDate') departureDate: string,
+  ) {
+    console.log(departureAirportCode);
+    console.log(arrivalAirportCode);
+    console.log(departureDate);
+    return this.flightsService.getFlightBySchedule(
+      departureAirportCode,
+      arrivalAirportCode,
+      departureDate,
+    );
+  }
+
   @Put(':id')
   async updateProduct(
     @Param('id') flightId: string,
@@ -85,5 +109,9 @@ export class FlightsController {
       flightNumber,
       seatCapacity,
     );
+  }
+  @Delete(':id')
+  async removeFlight(@Param('id') flightId: string) {
+    await this.flightsService.deleteFlight(flightId);
   }
 }
